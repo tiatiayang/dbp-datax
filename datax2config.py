@@ -6,6 +6,7 @@ import os
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
 TIME_OUT = 40
+RETRY_COUNT = 3
 GD_DF = pd.read_csv("tables/gd_table.csv")
 HN_DF = pd.read_csv("tables/hn_table.csv")
 HEADERS = _read_html("source_headers.hd")
@@ -13,7 +14,7 @@ HEADERS = json.loads(HEADERS)
 TZ_DF = pd.read_excel("/Users/mengyang/opt/pycpro/dcl/bi/doc/数据台账_v1.1.xlsx",sheet_name='stg层到ods层字段级别映射文档')
 print(HEADERS)
 
-def request_get_count(url, count=3,params=None,headers=None,**kwargs):
+def request_get_count(url, count=RETRY_COUNT,params=None,headers=None,**kwargs):
     index = 0
     res = None
     while True:
@@ -26,7 +27,7 @@ def request_get_count(url, count=3,params=None,headers=None,**kwargs):
         if index >=count:break
     return res
 
-def request_post_count(url, count=3,data=None,headers=None,**kwargs):
+def request_post_count(url, count=RETRY_COUNT,data=None,headers=None,**kwargs):
     index = 0
     res = None
     while True:
